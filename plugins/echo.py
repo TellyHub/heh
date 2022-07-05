@@ -269,4 +269,34 @@ async def echo(bot, update):
             ])
             # print("Inline Keyboard ---", inline_keyboard, '\n --End Inline Keyboard')
 
-
+        reply_markup = InlineKeyboardMarkup(inline_keyboard)
+        await chk.delete()
+        await bot.send_message(
+            chat_id=update.chat.id,
+            text=Translation.FORMAT_SELECTION.format(Thumbnail) + "\n" + Translation.SET_CUSTOM_USERNAME_PASSWORD,
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML,
+            reply_to_message_id=update.id
+        )
+    else:
+        # fallback for nonnumeric port a.k.a seedbox.io
+        inline_keyboard = []
+        cb_string_file = "{}={}={}".format(
+            "file", "LFO", "NONE")
+        cb_string_video = "{}={}={}".format(
+            "video", "OFL", "ENON")
+        inline_keyboard.append([
+            InlineKeyboardButton(
+                "🎬 ᴍᴇᴅɪᴀ",
+                callback_data=(cb_string_video).encode("UTF-8")
+            )
+        ])
+        reply_markup = InlineKeyboardMarkup(inline_keyboard)
+        await chk.delete(True)
+        await bot.send_message(
+            chat_id=update.chat.id,
+            text=Translation.FORMAT_SELECTION,
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML,
+            reply_to_message_id=update.id
+        )
