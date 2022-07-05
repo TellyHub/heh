@@ -55,7 +55,7 @@ async def echo(bot, update):
 
     logger.info(update.from_user)
 
-    idd_m = ' ' + str(update.message_id)
+    idd_m = ' ' + str(update.id)
     no_sz ='N/A' + idd_m
     logger.info(update.from_user)
     url = update.text
@@ -274,7 +274,8 @@ async def echo(bot, update):
            chat_id=update.chat.id,
            text=Translation.FORMAT_SELECTION.format(""),
            message_id=chk.id,
-           reply_markup=reply_markup
+           reply_markup=reply_markup,
+           parse_mode=enums.ParseMode.HTML
         )
     else:
         # fallback for nonnumeric port a.k.a seedbox.io
@@ -296,7 +297,7 @@ async def echo(bot, update):
             chat_id=update.chat.id,
             text=Translation.FORMAT_SELECTION.format(""),
             reply_markup=reply_markup,
-            parse_mode="html",
+            parse_mode=enums.ParseMode.HTML,
             reply_to_message_id=update.id
         )
 
