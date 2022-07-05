@@ -100,19 +100,28 @@ async def echo(bot, update):
         command_to_exec = [
             "yt-dlp",
             "--no-warnings",
-            "--youtube-skip-hls-manifest",
+            "--youtube-skip-dash-manifest",
             "-j",
             url,
             "--proxy", Config.HTTP_PROXY
         ]
-    else:
+    elif "/shorts/" in url:
         command_to_exec = [
             "yt-dlp",
+            "--no-warnings",
+            "--youtube-skip-dash-manifest",
+            "-j",
+            url
+        ]        
+    else:
+        command_to_exec = [
+            "youtube-dl",
             "--no-warnings",
             "--youtube-skip-hls-manifest",
             "-j",
             url
         ]
+
     if youtube_dl_username is not None:
         command_to_exec.append("--username")
         command_to_exec.append(youtube_dl_username)
