@@ -52,12 +52,15 @@ async def echo(bot, update):
       fsub = await handle_force_subscribe(bot, update)
       if fsub == 400:
         return
+
+    logger.info(update.from_user)
+    idd_m = ' ' + str(update.id)
+    no_sz ='N/A' + idd_m
     logger.info(update.from_user)
     url = update.text
     youtube_dl_username = None
     youtube_dl_password = None
     file_name = None
-
     print(url)
     if "|" in url:
         url_parts = url.split("|")
@@ -96,6 +99,7 @@ async def echo(bot, update):
                 o = entity.offset
                 l = entity.length
                 url = url[o:o + l]
+
     if Config.HTTP_PROXY != "":
         command_to_exec = [
             "yt-dlp",
