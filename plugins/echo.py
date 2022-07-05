@@ -173,7 +173,7 @@ async def echo(bot, update):
         response_json = json.loads(x_reponse)
         randem = random_char(5)
         os.mkdir(Config.DOWNLOAD_LOCATION + \
-            "/" + str(update.message_id) + "/")
+            "/" + str(update.id) + "/")
         save_ytdl_json_path = Config.DOWNLOAD_LOCATION + \
             "/" + str(update.message_id) + "/" + str(update.from_user.id) + ".json"
         print(save_ytdl_json_path, "echo")
@@ -288,7 +288,7 @@ async def echo(bot, update):
         await chk.delete()
         await bot.send_message(
             chat_id=update.chat.id,
-            text=Translation.FORMAT_SELECTION.format(Thumbnail) + "\n" + Translation.SET_CUSTOM_USERNAME_PASSWORD,
+            text=f"Please Select the desired format",
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML,
             reply_to_message_id=update.id
@@ -310,7 +310,7 @@ async def echo(bot, update):
         await chk.delete(True)
         await bot.send_message(
             chat_id=update.chat.id,
-            text=Translation.FORMAT_SELECTION,
+            text=f"Please Select the desired format",
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML,
             reply_to_message_id=update.id
