@@ -54,7 +54,8 @@ async def echo(bot, update):
         return
 
     logger.info(update.from_user)
-    idd_m = ' ' + str(update.id)
+
+    idd_m = ' ' + str(update.message_id)
     no_sz ='N/A' + idd_m
     logger.info(update.from_user)
     url = update.text
@@ -99,7 +100,6 @@ async def echo(bot, update):
                 o = entity.offset
                 l = entity.length
                 url = url[o:o + l]
-
     if Config.HTTP_PROXY != "":
         command_to_exec = [
             "yt-dlp",
@@ -125,7 +125,6 @@ async def echo(bot, update):
             "-j",
             url
         ]
-
     if youtube_dl_username is not None:
         command_to_exec.append("--username")
         command_to_exec.append(youtube_dl_username)
@@ -163,7 +162,7 @@ async def echo(bot, update):
         #time.sleep(1)
         await bot.send_message(
             chat_id=update.chat.id,
-            text=f"No Video Formats Found",
+            text=Translation.NO_VOID_FORMAT_FOUND.format(str(error_message)),
             reply_to_message_id=update.id,
             parse_mode=enums.ParseMode.HTML,
             disable_web_page_preview=True
@@ -206,12 +205,8 @@ async def echo(bot, update):
                 if format_string is not None and not "audio only" in format_string:
                     ikeyboard = [
                         InlineKeyboardButton(
-                            "S " + format_string + " video " + humanbytes(approx_file_size) + " ",
+                            "📹 " + format_string + format_ext + humanbytes(approx_file_size) + " ",
                             callback_data=(cb_string_video).encode("UTF-8")
-                        ),
-                        InlineKeyboardButton(
-                            "D " + format_ext + " " + humanbytes(approx_file_size) + " ",
-                            callback_data=(cb_string_file).encode("UTF-8")
                         )
                     ]
                     """if duration is not None:
@@ -228,16 +223,10 @@ async def echo(bot, update):
                     # special weird case :\
                     ikeyboard = [
                         InlineKeyboardButton(
-                            "SVideo [" +
+                            "📹 [" +
                             "] ( " +
                             approx_file_size + " )",
                             callback_data=(cb_string_video).encode("UTF-8")
-                        ),
-                        InlineKeyboardButton(
-                            "DFile [" +
-                            "] ( " +
-                            approx_file_size + " )",
-                            callback_data=(cb_string_file).encode("UTF-8")
                         )
                     ]
                 inline_keyboard.append(ikeyboard)
@@ -247,13 +236,13 @@ async def echo(bot, update):
                 cb_string = "{}|{}|{}|{}".format("audio", "320k", "mp3", no_sz)
                 inline_keyboard.append([
                     InlineKeyboardButton(
-                        "MP3 " + "(" + "64 kbps" + ")", callback_data=cb_string_64.encode("UTF-8")),
+                        "🎧 MP3 " + "(" + "64 kbps" + ")", callback_data=cb_string_64.encode("UTF-8")),
                     InlineKeyboardButton(
-                        "MP3 " + "(" + "128 kbps" + ")", callback_data=cb_string_128.encode("UTF-8"))
+                        "🎧 MP3 " + "(" + "128 kbps" + ")", callback_data=cb_string_128.encode("UTF-8"))
                 ])
                 inline_keyboard.append([
                     InlineKeyboardButton(
-                        "MP3 " + "(" + "320 kbps" + ")", callback_data=cb_string.encode("UTF-8"))
+                        "🎧 MP3 " + "(" + "320 kbps" + ")", callback_data=cb_string.encode("UTF-8"))
                 ])
         else:
             format_id = response_json["format_id"]
@@ -266,10 +255,6 @@ async def echo(bot, update):
                 InlineKeyboardButton(
                     "SVideo",
                     callback_data=(cb_string_video).encode("UTF-8")
-                ),
-                InlineKeyboardButton(
-                    "DFile",
-                    callback_data=(cb_string_file).encode("UTF-8")
                 )
             ])
             cb_string_file = "{}={}={}".format(
@@ -280,22 +265,16 @@ async def echo(bot, update):
                 InlineKeyboardButton(
                     "video",
                     callback_data=(cb_string_video).encode("UTF-8")
-                ),
-                InlineKeyboardButton(
-                    "file",
-                    callback_data=(cb_string_file).encode("UTF-8")
                 )
             ])
             # print("Inline Keyboard ---", inline_keyboard, '\n --End Inline Keyboard')
         reply_markup = InlineKeyboardMarkup(inline_keyboard)
 
-        await chk.delete()
         await bot.send_message(
-            chat_id=update.chat.id,
-            text=f"Please Select the desired format",
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML,
-            reply_to_message_id=update.id
+           chat_id=update.chat.id,
+           text=Translation.FORMAT_SELECTION.format(""),
+           message_id=chk.id,
+           reply_markup=reply_markup
         )
     else:
         # fallback for nonnumeric port a.k.a seedbox.io
@@ -306,17 +285,18 @@ async def echo(bot, update):
             "video", "OFL", "ENON")
         inline_keyboard.append([
             InlineKeyboardButton(
-                "🎬 Video",
+                "SVideo",
                 callback_data=(cb_string_video).encode("UTF-8")
             )
         ])
         reply_markup = InlineKeyboardMarkup(inline_keyboard)
-        await chk.delete(True)
+        await chk.delete()
+        # time.sleep(1)
         await bot.send_message(
             chat_id=update.chat.id,
-            text=f"Please Select the desired format",
+            text=Translation.FORMAT_SELECTION.format(""),
             reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML,
+            parse_mode="html",
             reply_to_message_id=update.id
         )
 
