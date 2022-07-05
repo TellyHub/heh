@@ -167,6 +167,7 @@ async def echo(bot, update):
         with open(save_ytdl_json_path, "w", encoding="utf8") as outfile:
             json.dump(response_json, outfile, ensure_ascii=False)
         # logger.info(response_json)
+        #inline_keyboard = []
         inline_keyboard = []
         duration = None
         if "duration" in response_json:
@@ -174,19 +175,21 @@ async def echo(bot, update):
         if "formats" in response_json:
             for formats in response_json["formats"]:
                 format_id = formats.get("format_id")
+                print(format_id, '186 Line')
                 format_string = formats.get("format_note")
                 if format_string is None:
                     format_string = formats.get("format")
                 format_ext = formats.get("ext")
                 approx_file_size = ""
                 if "filesize" in formats:
-                    approx_file_size = humanbytes(formats["filesize"])
+                    approx_file_size = formats["filesize"]
                 cb_string_video = "{}|{}|{}|{}".format(
-                    "video", format_id, format_ext, randem)
+                    "video", format_id, format_ext, str(approx_file_size), randem)
                 cb_string_file = "{}|{}|{}|{}".format(
-                    "file", format_id, format_ext, randem)
+                    "file", format_id, format_ext, str(approx_file_size), randem)
                 if format_string is not None and not "audio only" in format_string:
                     ikeyboard = [
+        
                         InlineKeyboardButton(
                             "🎬 " + format_string + " " + format_ext + " " + approx_file_size + " ",
                             callback_data=(cb_string_video).encode("UTF-8")
