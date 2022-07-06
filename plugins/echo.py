@@ -179,9 +179,9 @@ async def echo(bot, update):
                 
                 format_string = formats.get("format")
                 format_ext = formats.get("ext")
-                approx_file_size = ""
-                if "filesize" in formats:
-                    approx_file_size = humanbytes(formats["filesize"])
+                
+                
+                approx_file_size = humanbytes(formats["filesize"])
 
                 cb_string_video = "{}|{}|{}|{}".format(
                     "video", format_id, format_ext, randem)
@@ -194,15 +194,7 @@ async def echo(bot, update):
                         )
                     ]
 
-                else:
-                    ikeyboard = [
-                        InlineKeyboardButton(
-                            "🎬 [" +
-                            "] ( " +
-                            approx_file_size + " )",
-                            callback_data=(cb_string_video).encode("UTF-8")
-                        )
-                    ]
+
                 inline_keyboard.append(ikeyboard)
             if duration is not None:
                 cb_string_64 = "{}|{}|{}|{}".format("audio", "64k", "mp3", randem)
