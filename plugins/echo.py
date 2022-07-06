@@ -185,28 +185,7 @@ async def echo(bot, update):
                     approx_file_size = humanbytes(formats["filesize"])
 
 
-                cb_string = "{}|{}|{}".format(
-                    "video", format_id, format_ext, randem)
-                if not "audio only" in format_string:
-                    ikeyboard = [
-                        InlineKeyboardButton(
-                            "[" + format_string +
-                            "] (" + format_ext + " - " +
-                            approx_file_size + ")",
-                            callback_data=(cb_string).encode("UTF-8")
-                        )
-                    ]
-                    inline_keyboard.append(ikeyboard)
-            cb_string = "{}|{}|{}".format("audio", "5", "mp3", randem)
-            inline_keyboard.append([
-                InlineKeyboardButton(
-                    "MP3 " + "(" + "medium" + ")", callback_data=cb_string.encode("UTF-8"))
-            ])
-            cb_string = "{}|{}|{}".format("audio", "0", "mp3", randem)
-            inline_keyboard.append([
-                InlineKeyboardButton(
-                    "MP3 " + "(" + "best" + ")", callback_data=cb_string.encode("UTF-8"))
-            ])
+
 
         reply_markup = InlineKeyboardMarkup(inline_keyboard)
 
