@@ -182,19 +182,19 @@ async def echo(bot, update):
             if "filesize" in formats:
                 approx_file_size = humanbytes(formats["filesize"])
             ikeyboard = [
-                pyrogram.InlineKeyboardButton(
+                InlineKeyboardButton(
                     "[" + format_string + "] (" + format_ext + " - " + approx_file_size + ")",
                     callback_data=(format_id + ":" + format_ext).encode("UTF-8")
                 )
             ]
             inline_keyboard.append(ikeyboard)
         inline_keyboard.append([
-            pyrogram.InlineKeyboardButton("MP3 " + "(" + "medium" + ")", callback_data="5:mp3".encode("UTF-8"))
+            InlineKeyboardButton("MP3 " + "(" + "medium" + ")", callback_data="5:mp3".encode("UTF-8"))
         ])
         inline_keyboard.append([
-            pyrogram.InlineKeyboardButton("MP3 " + "(" + "best" + ")", callback_data="0:mp3".encode("UTF-8"))
+            InlineKeyboardButton("MP3 " + "(" + "best" + ")", callback_data="0:mp3".encode("UTF-8"))
         ])
-        reply_markup = pyrogram.InlineKeyboardMarkup(inline_keyboard)
+        reply_markup = InlineKeyboardMarkup(inline_keyboard)
         logger.info(reply_markup)
 
 
