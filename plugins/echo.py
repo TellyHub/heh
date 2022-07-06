@@ -173,15 +173,18 @@ async def echo(bot, update):
         duration = None
         if "duration" in response_json:
             duration = response_json["duration"]
-
         if "formats" in response_json:
             for formats in response_json["formats"]:
-                format_id = formats["format_id"]
-                format_string = formats["format"]
-                format_ext = formats["ext"]
+                format_id = formats.get("format_id")
+                format_string = formats.get("format_note")
+                if format_string is None:
+                    format_string = formats.get("format")
+                format_ext = formats.get("ext")
                 approx_file_size = ""
                 if "filesize" in formats:
                     approx_file_size = humanbytes(formats["filesize"])
+
+
                 cb_string = "{}|{}|{}".format(
                     "video", format_id, format_ext, randem)
                 if not "audio only" in format_string:
