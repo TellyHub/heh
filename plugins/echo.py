@@ -192,8 +192,8 @@ async def echo(bot, update):
                             callback_data=(cb_string_video).encode("UTF-8")
                         )
                     ]
-        inline_keyboard.append(ikeyboard)
-            if duration is not None:
+                inline_keyboard.append(ikeyboard)
+                if duration is not None:
         cb_string_64 = "{}|{}|{}|{}".format("audio", "64k", "mp3", randem)
         cb_string_128 = "{}|{}|{}|{}".format("audio", "128k", "mp3", randem)
         cb_string = "{}|{}|{}|{}".format("audio", "320k", "mp3", randem)
