@@ -181,7 +181,7 @@ async def echo(bot, update):
                     # don't display formats, without audio
                     # https://t.me/c/1434259219/269937
                 if "DASH" in format_string.upper():
-                    continue
+                   
                 format_ext = formats.get("ext")
                 approx_file_size = ""
                 if "filesize" in formats:
@@ -244,7 +244,7 @@ async def echo(bot, update):
                 )
             ])
             # TODO: :\
-                break
+               # break
         reply_markup = InlineKeyboardMarkup(inline_keyboard)
 
         
