@@ -186,6 +186,7 @@ async def echo(bot, update):
 
 
 
+        reply_markup = pyrogram.InlineKeyboardMarkup(inline_keyboard)
 
         reply_markup = InlineKeyboardMarkup(inline_keyboard)
 
