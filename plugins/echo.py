@@ -169,83 +169,50 @@ async def echo(bot, update):
         # logger.info(response_json)
         #inline_keyboard = []
         inline_keyboard = []
-        duration = None
-        if "duration" in response_json:
-            duration = response_json["duration"]
+        inline_keyboard = []
         if "formats" in response_json:
             for formats in response_json["formats"]:
-                format_id = formats.get("format_id")
-                format_string = formats.get("format_note")
-                if format_string is None:
-                    format_string = formats.get("format")
-                    # don't display formats, without audio
-                    # https://t.me/c/1434259219/269937
-                if "DASH" in format_string.upper():
-                   
-                format_ext = formats.get("ext")
+                format_id = formats["format_id"]
+                format_string = formats["format"]
+                format_ext = formats["ext"]
                 approx_file_size = ""
                 if "filesize" in formats:
                     approx_file_size = humanbytes(formats["filesize"])
-                n_ue_sc = bool("video only" in format_string)
-                scneu = "DL" if not n_ue_sc else "XM"
-                dipslay_str_uon = " " + format_string + " (" + format_ext.upper() + ") " + approx_file_size + " "
-                cb_string_video = "{}|{}|{}|{}".format(
-                    "video", format_id, format_ext, scneu, randem
-                )
-                ikeyboard = []
-                if "drive.google.com" in url:
-                    if format_id == "source":
-                        ikeyboard = [
-                            InlineKeyboardButton(
-                                dipslay_str_uon,
-                                callback_data=(cb_string_video).encode("UTF-8")
-                            )
-                        ]
-                else:
-                    if format_string is not None and not "audio only" in format_string:
-                        ikeyboard = [
-                            InlineKeyboardButton(
-                                dipslay_str_uon,
-                                callback_data=(cb_string_video).encode("UTF-8")
-                            )
-                        ]
-                    else:
-                            # special weird case :\
-                        ikeyboard = [
-                            InlineKeyboardButton(
-                                "SVideo [" +
-                                "] ( " +
-                                approx_file_size + " )",
-                                callback_data=(cb_string_video).encode("UTF-8")
-                            )
-                        ]
-                inline_keyboard.append(ikeyboard)
-            if duration is not None:
-                inline_keyboard.append([
-                    InlineKeyboardButton(
-                        "MP3 (64 kbps)", callback_data="audio|64k|mp3|_"),
-                    InlineKeyboardButton(
-                        "MP3 (128 kbps)", callback_data="audio|128k|mp3|_")
-                ])
-                inline_keyboard.append([
-                    InlineKeyboardButton(
-                        "MP3 (320 kbps)", callback_data="audio|320k|mp3|_")
-                ])
+                 cb_string = "{}|{}|{}".format(
+                    "video", format_id, format_ext, randem)
+                if not "audio only" in format_string:
+                    ikeyboard = [
+                        InlineKeyboardButton(
+                            "[" + format_string +
+                            "] (" + format_ext + " - " +
+                            approx_file_size + ")",
+                            callback_data=(cb_string).encode("UTF-8")
+                        )
+                    ]
+                    inline_keyboard.append(ikeyboard)
+            cb_string = "{}|{}|{}".format("audio", "5", "mp3")
+            inline_keyboard.append([
+                InlineKeyboardButton(
+                    "MP3 " + "(" + "medium" + ")", callback_data=cb_string.encode("UTF-8"))
+            ])
+            cb_string = "{}|{}|{}".format("audio", "0", "mp3")
+            inline_keyboard.append([
+                InlineKeyboardButton(
+                    "MP3 " + "(" + "best" + ")", callback_data=cb_string.encode("UTF-8"))
+            ])
         else:
             format_id = response_json["format_id"]
             format_ext = response_json["ext"]
-            cb_string_video = "{}|{}|{}|{}".format(
-                "video", format_id, format_ext, "DL", randem
-            )
+            cb_string = "{}|{}|{}".format(
+                "file", format_id, format_ext, randem)
             inline_keyboard.append([
                 InlineKeyboardButton(
-                    "SVideo",
-                    callback_data=(cb_string_video).encode("UTF-8")
-                )
+                    "unknown video format", callback_data=cb_string.encode("UTF-8"))
             ])
-            # TODO: :\
-               # break
         reply_markup = InlineKeyboardMarkup(inline_keyboard)
+        logger.info(reply_markup)
+
+       # reply_markup = InlineKeyboardMarkup(inline_keyboard)
 
         
         await chk.delete()
