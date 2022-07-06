@@ -173,15 +173,16 @@ async def echo(bot, update):
         duration = None
         if "duration" in response_json:
             duration = response_json["duration"]
-        inline_keyboard = []
-        for formats in response_json["formats"]:
-            format_id = formats["format_id"]
-            format_string = formats["format"]
-            format_ext = formats["ext"]
-            approx_file_size = ""
-            if "filesize" in formats:
-                approx_file_size = humanbytes(formats["filesize"])
-                cb_string_video = "{}|{}|{}|{}".format(
+
+        if "formats" in response_json:
+            for formats in response_json["formats"]:
+                format_id = formats["format_id"]
+                format_string = formats["format"]
+                format_ext = formats["ext"]
+                approx_file_size = ""
+                if "filesize" in formats:
+                    approx_file_size = humanbytes(formats["filesize"])
+                cb_string = "{}|{}|{}".format(
                     "video", format_id, format_ext, randem)
                 if not "audio only" in format_string:
                     ikeyboard = [
@@ -189,32 +190,34 @@ async def echo(bot, update):
                             "[" + format_string +
                             "] (" + format_ext + " - " +
                             approx_file_size + ")",
-                            callback_data=(cb_string_video).encode("UTF-8")
+                            callback_data=(cb_string).encode("UTF-8")
                         )
                     ]
-                inline_keyboard.append(ikeyboard)
-                if duration is not None:
-        cb_string_64 = "{}|{}|{}|{}".format("audio", "64k", "mp3", randem)
-        cb_string_128 = "{}|{}|{}|{}".format("audio", "128k", "mp3", randem)
-        cb_string = "{}|{}|{}|{}".format("audio", "320k", "mp3", randem)
-        inline_keyboard.append([
-            InlineKeyboardButton(
-                        "🎵 ᴍᴘ𝟹 " + "(" + "64 ᴋʙᴘs" + ")", callback_data=cb_string_64.encode("UTF-8")),
-            InlineKeyboardButton(
-                "🎵 ᴍᴘ𝟹 " + "(" + "128 ᴋʙᴘs" + ")", callback_data=cb_string_128.encode("UTF-8"))
-        ])
-        inline_keyboard.append([
-            InlineKeyboardButton(
-                "🎵 ᴍᴘ𝟹 " + "(" + "320 ᴋʙᴘs" + ")", callback_data=cb_string.encode("UTF-8"))
-        ])
-        inline_keyboard.append([                 
-            InlineKeyboardButton(
-                "✔️ ᴄʟᴏsᴇ", callback_data='close')               
-        ])
+                    inline_keyboard.append(ikeyboard)
+            cb_string = "{}|{}|{}".format("audio", "5", "mp3")
+            inline_keyboard.append([
+                InlineKeyboardButton(
+                    "MP3 " + "(" + "medium" + ")", callback_data=cb_string.encode("UTF-8"))
+            ])
+            cb_string = "{}|{}|{}".format("audio", "0", "mp3")
+            inline_keyboard.append([
+                InlineKeyboardButton(
+                    "MP3 " + "(" + "best" + ")", callback_data=cb_string.encode("UTF-8"))
+            ])
+        else:
+            format_id = response_json["format_id"]
+            format_ext = response_json["ext"]
+            cb_string = "{}|{}|{}".format(
+                "file", format_id, format_ext, randem)
+            inline_keyboard.append([
+                InlineKeyboardButton(
+                    "unknown video format", callback_data=cb_string.encode("UTF-8"))
+            ])
+        reply_markup = InlineKeyboardMarkup(inline_keyboard)
 
         
 
-        reply_markup = InlineKeyboardMarkup(inline_keyboard)
+        
         logger.info(reply_markup)
 
 
