@@ -189,7 +189,7 @@ async def echo(bot, update):
                             "[" + format_string +
                             "] (" + format_ext + " - " +
                             approx_file_size + ")",
-                            callback_data=(cb_string).encode("UTF-8")
+                            callback_data=(cb_string_video).encode("UTF-8")
                         )
                     ]
                     inline_keyboard.append(ikeyboard)
@@ -202,15 +202,6 @@ async def echo(bot, update):
             inline_keyboard.append([
                 InlineKeyboardButton(
                     "MP3 " + "(" + "best" + ")", callback_data=cb_string.encode("UTF-8"))
-            ])
-        else:
-            format_id = response_json["format_id"]
-            format_ext = response_json["ext"]
-            cb_string = "{}|{}|{}".format(
-                "file", format_id, format_ext, randem)
-            inline_keyboard.append([
-                InlineKeyboardButton(
-                    "unknown video format", callback_data=cb_string.encode("UTF-8"))
             ])
         
 
