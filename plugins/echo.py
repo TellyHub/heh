@@ -207,15 +207,7 @@ async def echo(bot, update):
                 InlineKeyboardButton(
                     "MP3 " + "(" + "best" + ")", callback_data=cb_string.encode("UTF-8"))
             ])
-        else:
-            format_id = response_json["format_id"]
-            format_ext = response_json["ext"]
-            cb_string = "{}|{}|{}".format(
-                "file", format_id, format_ext, randem)
-            inline_keyboard.append([
-                InlineKeyboardButton(
-                    "unknown video format", callback_data=cb_string.encode("UTF-8"))
-            ])
+
         reply_markup = InlineKeyboardMarkup(inline_keyboard)
 
         
