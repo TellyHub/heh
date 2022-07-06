@@ -183,8 +183,8 @@ async def echo(bot, update):
                 approx_file_size = humanbytes(formats["filesize"])
             ikeyboard = [
                 InlineKeyboardButton(
-                    "[" + format_string + "] (" + format_ext + " - " + approx_file_size + ")",
-                    callback_data=(format_id + ":" + format_ext).encode("UTF-8")
+                    "[" + format_string + "] (" + format_ext + approx_file_size + ")",
+                    callback_data=(format_id + format_ext).encode("UTF-8")
                 )
             ]
             inline_keyboard.append(ikeyboard)
