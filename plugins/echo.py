@@ -178,7 +178,7 @@ async def echo(bot, update):
                 approx_file_size = ""
                 if "filesize" in formats:
                     approx_file_size = humanbytes(formats["filesize"])
-                 cb_string = "{}|{}|{}".format(
+                cb_string = "{}|{}|{}".format(
                     "video", format_id, format_ext, randem)
                 if not "audio only" in format_string:
                     ikeyboard = [
