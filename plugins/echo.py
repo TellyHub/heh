@@ -170,6 +170,9 @@ async def echo(bot, update):
         #inline_keyboard = []
         
         inline_keyboard = []
+        duration = None
+        if "duration" in response_json:
+            duration = response_json["duration"]
         if "formats" in response_json:
             for formats in response_json["formats"]:
                 format_id = formats["format_id"]
