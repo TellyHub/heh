@@ -183,9 +183,9 @@ async def echo(bot, update):
                 if formats.get('filesize'):
                     size = formats['filesize']
                 elif formats.get('approx_file_size'):
-                    size = frmt['approx_file_size']
+                    size = formats['approx_file_size']
                 else:
-                    size 0              
+                    size = 0
 
 
                 cb_string_video = "{}|{}|{}|{}".format(
