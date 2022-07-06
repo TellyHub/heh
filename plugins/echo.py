@@ -179,13 +179,11 @@ async def echo(bot, update):
                 
                 format_string = formats.get("format")
                 format_ext = formats.get("ext")
+                approx_file_size = ""
+                if "filesize" in formats:
+                    approx_file_size = formats.get("filesize")
+                    
                 
-                if formats.get('filesize'):
-                    size = formats['filesize']
-                elif formats.get('approx_file_size'):
-                    size = formats['approx_file_size']
-                else:
-                    size = 0
 
 
                 cb_string_video = "{}|{}|{}|{}".format(
