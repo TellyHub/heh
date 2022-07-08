@@ -224,7 +224,7 @@ async def youtube_dl_call_back(bot, update):
         
         end_one = datetime.now()
         time_taken_for_download = (end_one -start).seconds
-        u_file_size = os.stat(doc_f).st_size
+        u_file_size = os.stat(download_directory).st_size
         if Config.TG_MAX_SIZE < int(u_file_size):
             # Uploads the file to gofile.io
 
@@ -236,11 +236,11 @@ async def youtube_dl_call_back(bot, update):
             )
             try:
                 ga = Async_Gofile()
-                gfio = await ga.upload(doc_f)
+                gfio = await ga.upload(download_directory)
                 await bot.edit("**Your file has been uploaded to gofile! Click on the below button to download it 👇**", reply_markup=Buttons.GOFILE_BTN(gfio["downloadPage"]))
             except:
                 await bot.edit("`Upload failed, Better luck next time 😔!`")
-            os.remove(doc_f)
+            os.remove(download_directory)
             return
 
             await update.message.edit_caption(
