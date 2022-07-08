@@ -253,7 +253,11 @@ async def youtube_dl_call_back(bot, update):
             os.remove(doc_f)
             return
 
-
+            await update.message.edit_caption(
+                
+                caption=Translation.RCHD_TG_API_LIMIT.format(time_taken_for_download, humanbytes(file_size)),
+                parse_mode=enums.ParseMode.HTML
+            )
 
         else:
             is_w_f = False
