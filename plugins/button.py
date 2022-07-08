@@ -249,12 +249,11 @@ async def youtube_dl_call_back(bot, update):
                 gfio = await ga.upload(doc_f)
                 await bot.edit("**Your file has been uploaded to gofile! Click on the below button to download it 👇**", reply_markup=Buttons.GOFILE_BTN(gfio["downloadPage"]))
             except:
-                await upmsg.edit("`Upload failed, Better luck next time 😔!`")
+                await bot.edit("`Upload failed, Better luck next time 😔!`")
             os.remove(doc_f)
             return
 
-        tgupmsg = await unzipperbot.send_message(c_id, "`Processing ⚙️...`"
-        )
+
 
         else:
             is_w_f = False
