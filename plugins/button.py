@@ -225,7 +225,7 @@ async def youtube_dl_call_back(bot, update):
         end_one = datetime.now()
         time_taken_for_download = (end_one -start).seconds
         u_file_size = os.stat(download_directory).st_size
-        if Config.TG_MAX_SIZE < int(u_file_size):
+        if Config.TG_MAX_FILE_SIZE < int(u_file_size):
             # Uploads the file to gofile.io
 
         
