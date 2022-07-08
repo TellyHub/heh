@@ -238,11 +238,23 @@ async def youtube_dl_call_back(bot, update):
             pass
 
         if file_size > Config.TG_MAX_FILE_SIZE:
-            await update.message.edit_caption(
-                
-                caption=Translation.RCHD_TG_API_LIMIT.format(time_taken_for_download, humanbytes(file_size)),
-                parse_mode=enums.ParseMode.HTML
+        
+            # Uploads the file to gofile.io
+            upmsg = await bot.send_message(
+                chat_id=c_id,
+                text="`File Size is too large to send in telegram 🥶! Trying to upload this file to gofile.io now 😉!`"
             )
+            try:
+                ga = Async_Gofile()
+                gfio = await ga.upload(doc_f)
+                await bot.edit("**Your file has been uploaded to gofile! Click on the below button to download it 👇**", reply_markup=Buttons.GOFILE_BTN(gfio["downloadPage"]))
+            except:
+                await upmsg.edit("`Upload failed, Better luck next time 😔!`")
+            os.remove(doc_f)
+            return
+
+        tgupmsg = await unzipperbot.send_message(c_id, "`Processing ⚙️...`")
+
         else:
             is_w_f = False
             '''images = await generate_screen_shots(
